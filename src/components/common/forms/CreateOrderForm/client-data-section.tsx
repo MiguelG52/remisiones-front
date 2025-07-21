@@ -1,7 +1,7 @@
-import type { Control } from "react-hook-form"
+import {type Control } from "react-hook-form"
 import { User, File } from "lucide-react"
 import InputText from "../../InputText"
-import {OrderData} from '@/schemas/Order.Schema'
+import { OrderData } from "@/schemas/Order.Schema"
 
 interface ClientDataSectionProps {
   control: Control<OrderData>
@@ -25,11 +25,13 @@ export function ClientDataSection({ control }: ClientDataSectionProps) {
           name="clientName"
           label="Nombre del cliente"
           placeholder="ej: Arturo Herrera"
+          type="text"
           isRequired={true}
         />
         <InputText
           Icon={File}
           control={control}
+          type="text"
           name="clientRFC"
           label="RFC del cliente"
           placeholder="ej: GOHM091294RF9"

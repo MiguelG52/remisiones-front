@@ -1,5 +1,5 @@
-import { useWatch, type Control } from "react-hook-form"
-import { Box, CreditCard, Percent } from "lucide-react"
+import { type UseFormRegister, useWatch, type Control } from "react-hook-form"
+import { Box, CreditCard, DollarSign, Percent } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { OrderData } from "@/schemas/Order.Schema"
@@ -17,11 +17,11 @@ interface OrderDataSectionProps {
 }
 
 export function OrderDataSection({ control, statusData, typesData }: OrderDataSectionProps) {
-  const isBillable = useWatch({
+  const [isBillable, statusId] = useWatch({
     control,
-    name: "detail.isBillable",
+    name: ['detail.isBillable', 'statusId'],
   })
-
+  const STATUS_ID = process.env.NEXT_PUBLIC_ORDER_STATUS_ABONADA_ID
   return (
     <div className="p-3 md:p-5 bg-white border rounded-xl">
       <div>
@@ -40,7 +40,7 @@ export function OrderDataSection({ control, statusData, typesData }: OrderDataSe
         <p className="text-foreground/45 text-sm">Seleccione el tipo y estatus de la orden</p>
       </div>
 
-      <div className="mt-5 flex items-center flex-col md:flex-row gap-5">
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
         <Select
           control={control}
           name="statusId"
@@ -57,6 +57,20 @@ export function OrderDataSection({ control, statusData, typesData }: OrderDataSe
           data={typesData}
           isRequired={true}
         />
+        {
+          statusId === STATUS_ID ? (
+            <InputText
+                isRequired={true}
+                type={"number"}
+                Icon={DollarSign}
+                control={control}
+                name="detail.payment"
+                label="Pago Anticipado"
+                placeholder="ej:1200"
+          />
+          ):<></>
+        }
+
       </div>
 
       <div className="mt-5">
@@ -66,11 +80,12 @@ export function OrderDataSection({ control, statusData, typesData }: OrderDataSe
           {isBillable && (
             <div className="w-full sm:w-1/3">
               <InputText
+                type={"number"}
                 Icon={Percent}
                 control={control}
                 name="detail.iva"
-                label="Porcentaje de impuesto"
-                placeholder="Número entero ej: 16"
+                label=""
+                placeholder="Porcentaje de impuesto"
               />
             </div>
           )}

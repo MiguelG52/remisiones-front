@@ -4,6 +4,7 @@ import { SidebarProvider} from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/common/AppSidebar";
 import Header from "@/components/common/Header";
 import {Inter} from 'next/font/google'
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], weight:['200', '400', '600'] }); // Configurar la fuente
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}
       >
+        <Toaster richColors/>
         <SidebarProvider defaultOpen={true}>
           <AppSidebar/>
           <main className="p-3 md:p-5 xl:px-10 w-full max-w-svw bg-secondary">

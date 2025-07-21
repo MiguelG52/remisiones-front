@@ -2,8 +2,7 @@ import React from 'react'
 import { Control, FieldValues, Path } from 'react-hook-form'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
-import { Badge } from '../ui/badge'
-import { CircleAlert } from 'lucide-react'
+
 
 interface SelectProps<T extends FieldValues> {
   name: Path<T>,

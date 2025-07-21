@@ -1,6 +1,6 @@
 "use client"
 
-import type { Control } from "react-hook-form"
+import { useWatch, type Control } from "react-hook-form"
 import { ListChecksIcon as ListCheck, Plus, Trash2 } from "lucide-react"
 import type { OrderData } from "@/schemas/Order.Schema"
 import type { ProductType } from "@/schemas/Product.Schema"
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { FormField, FormItem, FormControl, FormMessage, FormLabel } from "@/components/ui/form"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { get } from "http"
 
 interface ProductsSectionProps {
   control: Control<OrderData>
@@ -24,9 +25,14 @@ export function ProductsSection({
   onRemoveProduct,
   onUpdateProduct,
 }: ProductsSectionProps) {
+
+  const data = useWatch({control})
   const getTotalAmount = () => {
-    return products.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
+    const amount:number = products.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
+    return amount
   }
+
+
 
   return (
     <div className="p-3 md:p-5 bg-white border rounded-xl">
@@ -92,8 +98,8 @@ export function ProductsSection({
                         <TableCell>
                           <Input
                             required
-                            value={product.description}
-                            onChange={(e) => onUpdateProduct(product.id, "description", e.target.value)}
+                            value={product.name}
+                            onChange={(e) => onUpdateProduct(product.id, "name", e.target.value)}
                             placeholder="Descripción del producto"
                           />
                         </TableCell>
@@ -134,8 +140,21 @@ export function ProductsSection({
           )}
         />
 
+        {
+          data.detail?.isBillable && data.detail.iva &&(
+            <>
+              <div className="flex justify-end">
+                <div className="text-lg font-medium">Subtotal: ${getTotalAmount().toFixed(2)}</div>
+              </div>
+              <div className="flex justify-end">
+                <div className="text-lg font-medium">IVA: ${(getTotalAmount()*data.detail?.iva/100).toFixed(2)}</div>
+              </div>
+            </>
+          )
+        }
+
         <div className="flex justify-end">
-          <div className="text-lg font-semibold">Total: ${getTotalAmount().toFixed(2)}</div>
+          <div className="text-lg font-semibold">Total: ${data.detail?.isBillable && data.detail.iva?(getTotalAmount()+(getTotalAmount()*data.detail?.iva/100)).toFixed(2):getTotalAmount().toFixed(2)}</div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
-import { Control, FieldValues, Path } from 'react-hook-form'
+import { Control, FieldValues, Path, type UseFormRegister } from 'react-hook-form'
 import { LucideProps, User } from 'lucide-react'
 import { Badge } from '../ui/badge'
 
@@ -12,11 +12,15 @@ interface InputTextProps<T extends FieldValues> {
   control: Control<T>,
   isRequired?: boolean
   Icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
+  type?:string
+  register?: UseFormRegister<any>
 }
 
   
-const InputText = <T extends FieldValues>({control, name, label, placeholder, isRequired,Icon}: InputTextProps<T>) => {
+const InputText = <T extends FieldValues>({control, name, label, placeholder, isRequired,Icon, type}: InputTextProps<T>) => {
 
+  if(!type) type="text"
+  
   return (
     <FormField
       control={control}
@@ -31,15 +35,30 @@ const InputText = <T extends FieldValues>({control, name, label, placeholder, is
           <FormControl>
             <div className='w-full relative'>
               <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                id={name}
-                className='pl-10 transition-all duration-200 focus:ring-2 focus:ring-primary/20 pb-2"'
-                required={isRequired}
-                placeholder={placeholder}
-                {...field}
-              >
+              {
+                type && type=="number"?(
 
-              </Input>
+                  <Input
+                    type={type}
+                    id={name}
+                    className='pl-10 transition-all duration-200 focus:ring-2 focus:ring-primary/20 pb-2"'
+                    placeholder={placeholder}
+                    {...field}
+                    onChange={event => field.onChange(+event.target.value)}
+                  />
+
+                ):(
+                  <Input
+                  
+                    type={type}
+                    id={name}
+                    className='pl-10 transition-all duration-200 focus:ring-2 focus:ring-primary/20 pb-2"'
+                    placeholder={placeholder}
+                    {...field}
+                  />
+                )
+              }
+
             </div>
 
           </FormControl>

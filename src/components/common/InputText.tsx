@@ -1,9 +1,8 @@
 import React from 'react'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
-import { Control, FieldValues, Path, type UseFormRegister } from 'react-hook-form'
+import { Control, FieldValues, Path} from 'react-hook-form'
 import { LucideProps, User } from 'lucide-react'
-import { Badge } from '../ui/badge'
 
 interface InputTextProps<T extends FieldValues> {
   name: Path<T>,
@@ -13,7 +12,6 @@ interface InputTextProps<T extends FieldValues> {
   isRequired?: boolean
   Icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
   type?:string
-  register?: UseFormRegister<any>
 }
 
   

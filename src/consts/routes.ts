@@ -15,12 +15,12 @@ export const routes:Array<routePath> = [
   },
   {
     title: "Crear nota",
-    url: "order",
+    url: "/order",
     icon: FileMinus,
   },
   {
     title: "Notas de remisión",
-    url: "#",
+    url: "/orders-list?page=1",
     icon: List,
   },
   {

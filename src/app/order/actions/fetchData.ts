@@ -10,7 +10,7 @@ export const fetchData = cache(async ():Promise<{
     types:Array<OrderTypeDto>
 }> => {
   const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTIzYmQxMi1lNDI2LTQ2NjctYWU0OS03YzI1NjIzNWYzZGEiLCJlbWFpbCI6Im1pa2lnb256YTUyQGdtYWlsLmNvbSIsInJvbElkIjoiOWRlY2VlN2ItODExZi00Mjg1LTgyYzAtNDM3YWZjNDk3ODlmIiwiaWF0IjoxNzUzMTI0MDUwLCJleHAiOjE3NTMzODMyNTB9.oYbLuZnuKcI6lB_a5hJ0CCSjvw5zWFmzllofDHBqqF4";
-
+  
   const [statusRes, typesRes] = await Promise.all([
     fetch('http://localhost:5000/order-status/find-all', {
       method: 'GET',
@@ -39,7 +39,7 @@ export const fetchData = cache(async ():Promise<{
 
  export const handleCreateOrder = async(orderData: OrderData): Promise<ResponseCreateOrderDto> => {
    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTIzYmQxMi1lNDI2LTQ2NjctYWU0OS03YzI1NjIzNWYzZGEiLCJlbWFpbCI6Im1pa2lnb256YTUyQGdtYWlsLmNvbSIsInJvbElkIjoiOWRlY2VlN2ItODExZi00Mjg1LTgyYzAtNDM3YWZjNDk3ODlmIiwiaWF0IjoxNzUzMTI0MDUwLCJleHAiOjE3NTMzODMyNTB9.oYbLuZnuKcI6lB_a5hJ0CCSjvw5zWFmzllofDHBqqF4";
-
+  
 
   try {
     const response = await fetch('http://localhost:5000/orders/create', {

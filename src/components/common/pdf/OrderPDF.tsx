@@ -117,14 +117,15 @@ const OrderPDF = ({id, clientName, clientRFC, createdAt, user, status, orderType
         <Text>Vendedor: {user.name} ({user.email})</Text>
         <Text>Tipo de orden: {orderType.name}</Text>
         <Text>Estatus: {status.name}</Text>
-
+        {
+          (Number(detail.payment) > 0 && (Number(detail.payment))) ? <Text>Pago anticipado: {detail.payment}</Text>: null
+        }    
         
         {/* Entrega */}
         <Text style={styles.sectionTitle}>Datos de Entrega</Text>
         <Text>Dirección: {detail.delivery_address}</Text>
         <Text>Repartidor: {detail.driver_name}</Text>
         <Text>Placas del vehículo: {detail.vehicle_plate}</Text>
-        <Text>Pago anticipado: {detail.payment}</Text>
 
         {/* Productos */}
         <Text style={styles.sectionTitle}>Productos</Text>

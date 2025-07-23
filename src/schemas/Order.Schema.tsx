@@ -6,13 +6,13 @@ const OrderDetailSchema = z.object({
   subtotal: z.number().min(0, { error: 'El subtotal no puede ser negativo' }),
   isBillable: z.boolean(),
   products: z.array(Product).min(1,{error:"Se debe ingresar al menos un articulo"}),
-    deliveryAddress: z.string().nonempty({error:"La dirección de entrega es requerida"}).optional(),
-    driverName: z.string().nonempty({error:"El nombre el conductos es requerido"}).optional(),     
-    vehiclePlate: z.string().nonempty({error:"La placa es requerida"}).optional(),  
+    deliveryAddress: z.string().optional(),
+    driverName: z.string().optional(),     
+    vehiclePlate: z.string().optional(),  
     deliveryDate: z.date().optional(),
-    payment: z.number().nonnegative().min(1,{error:"El pago abonado no debe ser  menor a uno"}).optional(),  
+    payment: z.number().min(0,{error:"El pago abonado no debe ser  menor a uno"}).optional(),  
     iva: z.number({error:"El valor ingresado no es numero"})
-    .min(1,{error:"El valor  debe se mayor a 0"}).optional(),
+    .min(0,{error:"El valor  debe se mayor a 0"}).optional(),
 });
 
 // Orden principal

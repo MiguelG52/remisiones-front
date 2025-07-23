@@ -54,7 +54,7 @@ export const handleLogin = async(email:string, password:string):Promise<{ succes
         }  
 }
 
-export default async function verifySessionPath(path?:string) {
+export async function verifySessionPath(path?:string) {
     const cookieStore = await cookies()
     const token = cookieStore.get('authToken')?.value
     if (!token) {
@@ -63,5 +63,9 @@ export default async function verifySessionPath(path?:string) {
     else{
         if(path) redirect(`${path}`)
     }
+}
 
+export  async function getAuthToken() {
+    const cookieStore = await cookies()
+    return cookieStore.get('authToken')?.value
 }

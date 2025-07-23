@@ -20,6 +20,6 @@ export const zodNumber = (configure?: (num: z.ZodNumber) => z.ZodNumber) =>
   );
 
 
-  export function isApiError(obj: any): obj is ApiError {
+export function isApiError(obj: any): obj is ApiError {
       return obj && typeof obj.message === 'string' && !obj.token;
-    }
+  }

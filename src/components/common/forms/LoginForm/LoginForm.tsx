@@ -8,10 +8,9 @@ import InputText from '../../InputText'
 import { Key, Loader2, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import redirectPath, { handleLogin } from '@/app/auth/actions/auth.actions'
+import { handleLogin, verifySessionPath } from '@/app/auth/actions/auth.actions'
 import { useUserContext } from '@/context/UserContext'
 import { isApiError } from '@/utils/utils'
-import verifySessionPath from '@/app/auth/actions/auth.actions'
 
 const LoginForm = () => {
 

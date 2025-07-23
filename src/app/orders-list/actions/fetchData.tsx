@@ -1,9 +1,9 @@
 import { FindOrderResponse } from "@/schemas/response/FindOrderResponse";
 import { cache } from "react";
-
+import { getAuthToken } from "@/app/auth/actions/auth.actions";
 
 export const fetchOrdersData = cache(async (page: number = 1, limit: number = 10, search?: string): Promise<FindOrderResponse> => {
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTIzYmQxMi1lNDI2LTQ2NjctYWU0OS03YzI1NjIzNWYzZGEiLCJlbWFpbCI6Im1pa2lnb256YTUyQGdtYWlsLmNvbSIsInJvbElkIjoiOWRlY2VlN2ItODExZi00Mjg1LTgyYzAtNDM3YWZjNDk3ODlmIiwiaWF0IjoxNzUzMTI0MDUwLCJleHAiOjE3NTMzODMyNTB9.oYbLuZnuKcI6lB_a5hJ0CCSjvw5zWFmzllofDHBqqF4";
+  const accessToken = getAuthToken()
   const url = new URL(process.env.NEXT_PUBLIC_URL_SERVER+'/orders/find-all');
   url.searchParams.append('page', page.toString());
   url.searchParams.append('limit', limit.toString());
@@ -27,8 +27,7 @@ export const fetchOrdersData = cache(async (page: number = 1, limit: number = 10
 
 
 export async function getOrdersPaginated(page: number = 1,  search: string = ''): Promise<FindOrderResponse> {
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTIzYmQxMi1lNDI2LTQ2NjctYWU0OS03YzI1NjIzNWYzZGEiLCJlbWFpbCI6Im1pa2lnb256YTUyQGdtYWlsLmNvbSIsInJvbElkIjoiOWRlY2VlN2ItODExZi00Mjg1LTgyYzAtNDM3YWZjNDk3ODlmIiwiaWF0IjoxNzUzMTI0MDUwLCJleHAiOjE3NTMzODMyNTB9.oYbLuZnuKcI6lB_a5hJ0CCSjvw5zWFmzllofDHBqqF4"
-
+  const accessToken = getAuthToken()
   const params = new URLSearchParams({
     page: String(page),
     search: search || ''
@@ -39,7 +38,7 @@ export async function getOrdersPaginated(page: number = 1,  search: string = '')
       'Authorization': `Bearer ${accessToken}`,
       'Content-Type': 'application/json'
     },
-    cache: 'no-store' // importante si necesitas fresh data
+    cache: 'no-store' 
   })
 
   if (!res.ok) throw new Error('Error al obtener órdenes')

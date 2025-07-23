@@ -3,13 +3,14 @@ import { OrderStatusDto } from '@/schemas/dto/OrderStatusDto';
 import { OrderTypeDto } from '@/schemas/dto/OrderTypeDto';
 import { OrderData } from '@/schemas/Order.Schema';
 import { cache } from 'react'
+import { getAuthToken } from '@/app/auth/actions/auth.actions';
 
 
 export const fetchData = cache(async ():Promise<{
     status:Array<OrderStatusDto>,
     types:Array<OrderTypeDto>
 }> => {
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTIzYmQxMi1lNDI2LTQ2NjctYWU0OS03YzI1NjIzNWYzZGEiLCJlbWFpbCI6Im1pa2lnb256YTUyQGdtYWlsLmNvbSIsInJvbElkIjoiOWRlY2VlN2ItODExZi00Mjg1LTgyYzAtNDM3YWZjNDk3ODlmIiwiaWF0IjoxNzUzMTI0MDUwLCJleHAiOjE3NTMzODMyNTB9.oYbLuZnuKcI6lB_a5hJ0CCSjvw5zWFmzllofDHBqqF4";
+  const accessToken = getAuthToken()
   
   const [statusRes, typesRes] = await Promise.all([
     fetch(process.env.NEXT_PUBLIC_URL_SERVER+'/order-status/find-all', {
@@ -38,8 +39,7 @@ export const fetchData = cache(async ():Promise<{
 });
 
  export const handleCreateOrder = async(orderData: OrderData): Promise<ResponseCreateOrderDto> => {
-   const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTIzYmQxMi1lNDI2LTQ2NjctYWU0OS03YzI1NjIzNWYzZGEiLCJlbWFpbCI6Im1pa2lnb256YTUyQGdtYWlsLmNvbSIsInJvbElkIjoiOWRlY2VlN2ItODExZi00Mjg1LTgyYzAtNDM3YWZjNDk3ODlmIiwiaWF0IjoxNzUzMTI0MDUwLCJleHAiOjE3NTMzODMyNTB9.oYbLuZnuKcI6lB_a5hJ0CCSjvw5zWFmzllofDHBqqF4";
-  
+   const accessToken = getAuthToken()
 
   try {
     const response = await fetch(process.env.NEXT_PUBLIC_URL_SERVER+'/orders/create', {

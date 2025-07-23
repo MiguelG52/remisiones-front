@@ -14,7 +14,7 @@ import { type ProductType } from '@/schemas/Product.Schema'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Save } from 'lucide-react'
 import { handleCreateOrder } from '@/app/order/actions/fetchData'
-import { ResponseCreateOrderDto } from '@/schemas/dto/CreateOrderResponseDto'
+import { ResponseCreateOrderDto } from '@/schemas/response/CreateOrderResponseDto'
 import { downloadOrderPDF } from '@/app/order/actions/createPdf'
 import { toast } from 'sonner'
 

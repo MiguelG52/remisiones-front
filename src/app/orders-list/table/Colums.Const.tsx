@@ -1,6 +1,6 @@
 'use client'
 import { Badge } from "@/components/ui/badge";
-import { OrderDto } from "@/schemas/dto/CreateOrderResponseDto";
+import { OrderDto } from "@/schemas/response/CreateOrderResponseDto";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { File, Edit, Eye } from "lucide-react";
 

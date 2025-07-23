@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Listado de Notas de remision",
@@ -10,6 +12,12 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies()
+      const token = (await cookieStore).get('authToken')?.value
+      
+      if (!token) {
+        redirect('/auth') 
+      }
   return (
     <section>
         {children}

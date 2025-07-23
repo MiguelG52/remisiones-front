@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { CalendarIcon } from 'lucide-react'
 import { PopoverContent, PopoverTrigger } from '@radix-ui/react-popover'
 import { Calendar } from '../ui/calendar'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/utils'
 import { format } from 'date-fns'
 import { Popover } from '../ui/popover'
 

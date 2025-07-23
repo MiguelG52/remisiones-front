@@ -1,4 +1,4 @@
-import { OrderDto } from '@/schemas/dto/CreateOrderResponseDto';
+import { OrderDto } from '@/schemas/response/CreateOrderResponseDto';
 import { pdf } from '@react-pdf/renderer';
 import OrderPDF from '@/components/common/pdf/OrderPDF';
 

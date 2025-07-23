@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
 } from '@react-pdf/renderer';
-import { OrderDto } from '@/schemas/dto/CreateOrderResponseDto';
+import { OrderDto } from '@/schemas/response/CreateOrderResponseDto';
 
 // Estilos
 const styles = StyleSheet.create({

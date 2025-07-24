@@ -4,7 +4,6 @@ import type { OrderData } from "@/schemas/Order.Schema"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import InputText from "../../InputText"
-import DatePicker from "../../DatePicker"
 interface DeliveryDataSectionProps {
   control: Control<OrderData>
 }
@@ -54,12 +53,6 @@ export function DeliveryDataSection({ control }: DeliveryDataSectionProps) {
                   name="detail.vehiclePlate"
                   label="Placa del vehiculo"
                   placeholder="ej: 50C29C9"
-                />
-                <DatePicker
-                  name="detail.deliveryDate"
-                  control={control}
-                  label="Seleccione la fecha de entrega"
-                  placeholder="17/07/2025"
                 />
               </div>
             </AccordionContent>

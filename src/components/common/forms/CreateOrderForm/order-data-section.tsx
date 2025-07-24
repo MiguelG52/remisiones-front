@@ -1,4 +1,4 @@
-import { type UseFormRegister, useWatch, type Control } from "react-hook-form"
+import { useWatch, type Control } from "react-hook-form"
 import { Box, CreditCard, DollarSign, Percent } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -28,7 +28,7 @@ export function OrderDataSection({ control, statusData, typesData }: OrderDataSe
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center justify-center gap-2">
             <Box className="text-primary" />
-            <h3 className="font-semibold">Datos de la Orden</h3>
+            <h3 className="font-semibold">Datos de la Nota de remisión</h3>
           </div>
           {isBillable && (
             <Badge className="rounded-2xl">
@@ -37,7 +37,7 @@ export function OrderDataSection({ control, statusData, typesData }: OrderDataSe
             </Badge>
           )}
         </div>
-        <p className="text-foreground/45 text-sm">Seleccione el tipo y estatus de la orden</p>
+        <p className="text-foreground/45 text-sm">Seleccione el tipo y estatus de la nota de remisión</p>
       </div>
 
       <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-5">

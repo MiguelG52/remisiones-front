@@ -1,9 +1,8 @@
 import React from 'react'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
-import { Control, FieldValues, Path, type UseFormRegister } from 'react-hook-form'
+import { Control, FieldValues, Path} from 'react-hook-form'
 import { LucideProps, User } from 'lucide-react'
-import { Badge } from '../ui/badge'
 
 interface InputTextProps<T extends FieldValues> {
   name: Path<T>,
@@ -11,9 +10,8 @@ interface InputTextProps<T extends FieldValues> {
   placeholder: string,
   control: Control<T>,
   isRequired?: boolean
-  Icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
+  Icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
   type?:string
-  register?: UseFormRegister<any>
 }
 
   
@@ -34,7 +32,7 @@ const InputText = <T extends FieldValues>({control, name, label, placeholder, is
           </FormLabel>
           <FormControl>
             <div className='w-full relative'>
-              <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              {Icon && (<Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />)}
               {
                 type && type=="number"?(
 

@@ -14,9 +14,10 @@ import { type ProductType } from '@/schemas/Product.Schema'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Save } from 'lucide-react'
 import { handleCreateOrder } from '@/app/order/actions/fetchData'
-import { ResponseCreateOrderDto } from '@/schemas/dto/CreateOrderResponseDto'
+import { ResponseCreateOrderDto } from '@/schemas/response/CreateOrderResponseDto'
 import { downloadOrderPDF } from '@/app/order/actions/createPdf'
 import { toast } from 'sonner'
+import { useUserContext } from '@/context/UserContext'
 
 interface CreateOrderFormProps{
   data:Promise<{
@@ -30,29 +31,28 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
   const [isLoading,setIsLoading] = useState<boolean>(false);
   const dataFetch = use(data)
   const [products, setProducts] = useState<Array<ProductType>>([]);
+  const {user} = useUserContext()
   
   const form = useForm<OrderData>({
-    resolver: zodResolver(OrderSchema),
+    resolver:zodResolver(OrderSchema),
     defaultValues: {
-      userId: "8923bd12-e426-4667-ae49-7c256235f3da",
+      userId: user?.id,
       statusId: "",
       orderTypeId: "",
       clientName: "",
       clientRFC: '',
-      deliveryDate: undefined, 
       detail: {
-        payment:0,
         subtotal: 0,
         isBillable: false,
         products: [],
         driverName: '',
         deliveryAddress: '',
-        iva: 0, 
-        deliveryDate: undefined,
+        vehiclePlate:''
       },
     },
   });
-
+  const onInvalid = (errors: any) => {
+}
   //Corregir el efecto de rerenderizado usando useFueldArray
   useEffect(() => {
     form.setValue("detail.products", products)
@@ -85,8 +85,6 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
         //Casting data
         const totalNumber = Number(getSubTotalAmount())
         values.detail.subtotal = totalNumber
-
-
         const res: ResponseCreateOrderDto = await handleCreateOrder(values);
         const order = res.order;
         await downloadOrderPDF(order, false);
@@ -109,9 +107,18 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
         setIsLoading(false);
       }
     }
+
+    // DEBUGGING: Observar cambios en el estado del formulario
+    useEffect(() => {
+      const subscription = form.watch((value, { name, type }) => {
+        console.log(`🔄 Campo cambiado: ${name}, Tipo: ${type}`, value)
+      })
+      return () => subscription.unsubscribe()
+    }, [form])
+    
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-5 flex flex-col sm:flex-row w-full gap-5">
+      <form onSubmit={form.handleSubmit(onSubmit,onInvalid)} className="mt-5 flex flex-col sm:flex-row w-full gap-5">
         {/* Datos básicos */}
         <div className="w-full sm:w-1/2 flex flex-col gap-5">
           <ClientDataSection control={form.control} />

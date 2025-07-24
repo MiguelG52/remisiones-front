@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
-  const cookieStore = cookies()
-  const token = (await cookieStore).get('authToken')?.value
+  const cookieStore = await cookies()
+  const token = cookieStore.get('authToken')?.value
   const initialUser = token ? await getUserFromToken(token):null
 
   return (

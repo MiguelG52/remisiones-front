@@ -4,6 +4,7 @@ import { LoginResponse } from "@/schemas/response/LoginResponse";
 import { cookies } from "next/headers";
 import { UserDataDto } from "../dto/UserData.dto";
 import { redirect } from "next/navigation";
+import { RecoverPasswordResponse } from "@/schemas/response/RecoverPasswordRespponse";
 
 
 export const handleLogin = async(email:string, password:string):Promise<{ success: true, data: UserDataDto } | { success: false, error: ApiError }>=>{
@@ -58,7 +59,7 @@ export async function verifySessionPath(path?:string) {
     const cookieStore = await cookies()
     const token = cookieStore.get('authToken')?.value
     if (!token) {
-        redirect('/') 
+        redirect('/auth') 
     }
     else{
         if(path) redirect(`${path}`)
@@ -68,4 +69,33 @@ export async function verifySessionPath(path?:string) {
 export  async function getAuthToken() {
     const cookieStore = await cookies()
     return cookieStore.get('authToken')?.value
+}
+
+export async function handleLogOut(){
+    const cookieStore = await cookies()
+    cookieStore.delete('authToken')
+    redirect('/auth')
+}
+
+export const handleRecoverPassword = async(email:string):Promise<{ success: true, message:string } | { success: false, error: ApiError }>=>{
+    try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_SERVER}/auth/request-password-reset`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            })
+    
+            const data:RecoverPasswordResponse = await response.json()
+            if (!response.ok) {
+                 return {
+                    success:false, error: data as ApiError
+                 }
+            }
+            return { success:true, message: data.message}
+        } catch (error) {
+            console.error('Login error:', error)
+            throw error
+        }  
 }

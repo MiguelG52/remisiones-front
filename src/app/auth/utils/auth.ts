@@ -1,5 +1,3 @@
-import { cookies } from "next/headers"
-
 export const getUserFromToken = async (token:string)=>{
 
   let initialUser = null

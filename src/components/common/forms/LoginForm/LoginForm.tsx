@@ -47,7 +47,7 @@ const LoginForm = () => {
     }
     return (
         <Form {...loginForm}>
-            <form onSubmit={loginForm.handleSubmit(onSubmit)} className='flex flex-col gap-5 mt-5'>
+            <form onSubmit={loginForm.handleSubmit(onSubmit)} className='flex flex-col gap-5 mt-5 sm:w-1/2 xl:w-1/4'>
               <InputText 
                 control={loginForm.control} 
                 name='email'
@@ -64,7 +64,7 @@ const LoginForm = () => {
                 Icon={Key}
                 type='password'
               />
-              <Button>
+              <Button className='cursor-pointer'>
                 {loading? <Loader2 size={15} className='animate-spin'></Loader2>:"Iniciar Sesión"}
                 
               </Button>

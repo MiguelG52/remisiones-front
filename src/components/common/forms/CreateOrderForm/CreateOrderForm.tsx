@@ -17,6 +17,7 @@ import { handleCreateOrder } from '@/app/order/actions/fetchData'
 import { ResponseCreateOrderDto } from '@/schemas/response/CreateOrderResponseDto'
 import { downloadOrderPDF } from '@/app/order/actions/createPdf'
 import { toast } from 'sonner'
+import { useUserContext } from '@/context/UserContext'
 
 interface CreateOrderFormProps{
   data:Promise<{
@@ -30,11 +31,12 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
   const [isLoading,setIsLoading] = useState<boolean>(false);
   const dataFetch = use(data)
   const [products, setProducts] = useState<Array<ProductType>>([]);
+  const {user} = useUserContext()
   
   const form = useForm<OrderData>({
     resolver:zodResolver(OrderSchema),
     defaultValues: {
-      userId: "8923bd12-e426-4667-ae49-7c256235f3da",
+      userId: user?.id,
       statusId: "",
       orderTypeId: "",
       clientName: "",
@@ -50,7 +52,6 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
     },
   });
   const onInvalid = (errors: any) => {
-  console.log("❌ Formulario inválido", errors)
 }
   //Corregir el efecto de rerenderizado usando useFueldArray
   useEffect(() => {

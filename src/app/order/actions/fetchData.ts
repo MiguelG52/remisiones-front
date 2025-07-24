@@ -10,7 +10,7 @@ export const fetchData = cache(async ():Promise<{
     status:Array<OrderStatusDto>,
     types:Array<OrderTypeDto>
 }> => {
-  const accessToken = getAuthToken()
+  const accessToken = await getAuthToken()
   
   const [statusRes, typesRes] = await Promise.all([
     fetch(process.env.NEXT_PUBLIC_URL_SERVER+'/order-status/find-all', {
@@ -39,9 +39,9 @@ export const fetchData = cache(async ():Promise<{
 });
 
  export const handleCreateOrder = async(orderData: OrderData): Promise<ResponseCreateOrderDto> => {
-   const accessToken = getAuthToken()
-
+  
   try {
+    const accessToken = await getAuthToken()
     const response = await fetch(process.env.NEXT_PUBLIC_URL_SERVER+'/orders/create', {
       method: 'POST',
       headers: {

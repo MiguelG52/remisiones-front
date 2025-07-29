@@ -6,7 +6,7 @@ import { OrderData } from "@/schemas/Order.Schema"
 import { OrderStatusDto } from "@/schemas/dto/OrderStatusDto"
 import { OrderTypeDto } from "@/schemas/dto/OrderTypeDto"
 import InputText from "../../InputText"
-import CheckBoxForm from "../CheckBox"
+import CheckBoxForm from "../../CheckBox"
 import Select from "../../Select"
 
 

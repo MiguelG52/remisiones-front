@@ -7,7 +7,7 @@ import { handleLogOut } from '@/app/auth/actions/auth.actions'
 
 const Header = () => {
   return (
-    <header className='flex justify-between items-center'>
+    <header className='flex justify-between items-center bg-white p-1 md:p-2 rounded-3xl'>
         <SidebarTrigger/>
         <>
           <Button  onClick={()=>handleLogOut()} variant="outline" className='rounded-full cursor-pointer'>

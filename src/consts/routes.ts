@@ -1,4 +1,4 @@
-import { ChartSplineIcon, FileMinus, Home, List, LucideProps, Settings } from "lucide-react";
+import { ChartSplineIcon, FileMinus, Home, List, LucideProps, Settings, Users } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface routePath{
@@ -12,6 +12,11 @@ export const routes:Array<routePath> = [
     title: "Inicio  ",
     url: "/dashboard",
     icon: Home,
+  },
+  {
+    title: "Clientes",
+    url: "/clients?page=1",
+    icon: Users,
   },
   {
     title: "Crear nota",

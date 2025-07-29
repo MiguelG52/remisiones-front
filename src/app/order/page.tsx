@@ -3,7 +3,7 @@ import CreateOrderForm from '@/components/common/forms/CreateOrderForm/CreateOrd
 import { fetchData } from './actions/fetchData'
 const CreateOrder = () => {
 
-  const data= fetchData()
+  const data = fetchData()
 
 
   return (

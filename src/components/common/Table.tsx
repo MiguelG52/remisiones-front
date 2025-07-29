@@ -1,13 +1,11 @@
 'use client'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import React, { useState } from 'react'
-import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, PaginationState, SortingState, useReactTable 
-} from "@tanstack/react-table"
-import {
-  Table,TableBody,TableCell,TableHead,TableHeader,TableRow,
-} from "@/components/ui/table"
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, PaginationState, SortingState, useReactTable } from "@tanstack/react-table";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData,  TValue>[],
@@ -18,8 +16,8 @@ interface DataTableProps<TData, TValue>{
   searchQuery?: string
 }
 
- export function OrderTable<TData, TValue>({columns,data, total, page, lastPage, searchQuery}:DataTableProps<TData, TValue>){
-  
+export function CustomTable<TData, TValue>({columns,data, total, page, lastPage, searchQuery}:DataTableProps<TData, TValue>){
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState("")
   const [pagination, setPagination] = useState<PaginationState>({
@@ -142,5 +140,3 @@ interface DataTableProps<TData, TValue>{
     </div>
   )
 }
-
-

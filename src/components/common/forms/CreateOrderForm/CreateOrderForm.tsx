@@ -1,7 +1,7 @@
 'use client'
 import React, { use, useEffect, useState } from 'react'
 import { Form } from '@/components/ui/form'
-import { useFieldArray, useForm, } from 'react-hook-form'
+import { useForm, } from 'react-hook-form'
 import { OrderSchema, type OrderData } from '@/schemas/Order.Schema'
 import { OrderStatusDto } from '@/schemas/dto/OrderStatusDto'
 import { OrderTypeDto } from '@/schemas/dto/OrderTypeDto'
@@ -51,8 +51,6 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
       },
     },
   });
-  const onInvalid = (errors: any) => {
-}
   //Corregir el efecto de rerenderizado usando useFueldArray
   useEffect(() => {
     form.setValue("detail.products", products)
@@ -118,7 +116,7 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
     
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit,onInvalid)} className="mt-5 flex flex-col sm:flex-row w-full gap-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-5 flex flex-col sm:flex-row w-full gap-5">
         {/* Datos básicos */}
         <div className="w-full sm:w-1/2 flex flex-col gap-5">
           <ClientDataSection control={form.control} />

@@ -4,13 +4,12 @@ import { LoginFormSchema, type LoginFormData } from '@/schemas/Login.Schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import InputText from '../../InputText'
+import InputText from '../../../../components/common/InputText'
 import { Key, Loader2, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { handleLogin, verifySessionPath } from '@/app/auth/actions/auth.actions'
 import { useUserContext } from '@/context/UserContext'
-import { isApiError } from '@/utils/utils'
 
 const LoginForm = () => {
 
@@ -28,8 +27,9 @@ const LoginForm = () => {
         setIsLoading(true)
         try {
             const result = await handleLogin(data.email, data.password);
-            if (isApiError(result)) {
-              toast.error(result.message || 'Error desconocido al iniciar sesión');
+            console.log(result)
+            if (!result.success) {
+              toast.error(result.error.message || 'Error desconocido al iniciar sesión');
               return;
             }
             if (result.success) {
@@ -39,8 +39,7 @@ const LoginForm = () => {
             }
 
         } catch (error) {
-            let errorMessage = 'Ocurrió un error al iniciar sesión'
-            toast.error(errorMessage)
+            toast.error('Ocurrió un error al iniciar sesión')
         } finally {
           setIsLoading(false)
         }

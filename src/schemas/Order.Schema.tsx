@@ -20,9 +20,9 @@ export const OrderSchema = z.object({
   userId: z.uuid({version:'v4', error: 'El ID de usuario debe ser un UUID válido' }),
   statusId: z.uuid({version:'v4', error: 'El ID de estado debe ser un UUID válido' }),
   orderTypeId: z.uuid({version:'v4', error: 'El tipo de orden es obligatorio' }),
-  clientName: z.string().nonempty({error: 'El nombre del cliente es obligatorio' }),
-  clientRFC: z.string().optional(),
-  deliveryDate:z.date().optional(),
+  clientId:z.string().optional(),
+  buyerName:z.string().optional(),
+  buyerLastname:z.string().optional(),
   detail: OrderDetailSchema
 });
 

@@ -2,11 +2,12 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import {routes} from '@/consts/routes'
 import UserAvatar from "./UserAvatar"
 import Link from "next/link"
+import { UserSidebarHeader } from "./UserSidebar"
 export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <UserAvatar/>
+        <UserSidebarHeader/>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup >

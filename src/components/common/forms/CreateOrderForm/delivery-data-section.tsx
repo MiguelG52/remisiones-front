@@ -1,5 +1,5 @@
 import type { Control } from "react-hook-form"
-import { Truck, MapPinIcon as MapPinHouse, Car, CircleAlert, IdCard } from "lucide-react"
+import { Truck, Car, CircleAlert, IdCard } from "lucide-react"
 import type { OrderData } from "@/schemas/Order.Schema"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -33,13 +33,6 @@ export function DeliveryDataSection({ control }: DeliveryDataSectionProps) {
             </AccordionTrigger>
             <AccordionContent>
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-7">
-                <InputText
-                  Icon={MapPinHouse}
-                  control={control}
-                  name="detail.deliveryAddress"
-                  label="Dirección de entrega"
-                  placeholder="ej: Mario Colin 7"
-                />
                 <InputText
                   Icon={Car}
                   control={control}

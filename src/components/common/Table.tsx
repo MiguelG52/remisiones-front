@@ -59,60 +59,63 @@ export function CustomTable<TData, TValue>({columns,data, total, page, lastPage,
       
   })
   return (
-    <div className="rounded-md border mt-2 bg-white">
-      <div className="flex items-center py-4 px-2 gap-2">
+    <div className="rounded-4xl border mt-2 bg-white">
+      <div className="flex items-center p-3 sm:p-5 gap-2">
         <Input
+          
           placeholder="Buscar por cliente, tipo, estado o fecha..."
           value={globalFilter}
           onChange={(e) => {
             setGlobalFilter(e.target.value);
           }}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch(globalFilter)}
-          className="max-w-md"
+          className="max-w-md rounded-3xl"
         />
-        <Button onClick={() => handleSearch(globalFilter)}>Buscar</Button>
+        <Button className="rounded-3xl" onClick={() => handleSearch(globalFilter)}>Buscar</Button>
       </div>
-
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
+      <div className="p-3 sm:p-5">
+          <Table >
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    No se encontraron resultados
                   </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No se encontraron resultados
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+      </div>
+      
       {/* Paginación controlada por el servidor */}
       <div className="flex items-center justify-between px-4 py-5 text-sm">
         <div>

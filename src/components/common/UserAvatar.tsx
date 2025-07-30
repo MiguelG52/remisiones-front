@@ -1,18 +1,20 @@
 import React from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Avatar, AvatarFallback } from '../ui/avatar'
 
-const UserAvatar = () => {
+interface UserAvatarProps {
+  name: string
+}
+
+const UserAvatar = ({ name }: UserAvatarProps) => {
+  const initial = name?.charAt(0).toUpperCase() || '?'
+
   return (
-    <div className='bg-primary-foreground rounded-xl'>
-      <div>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </div>
-      <div>
-
-      </div>
+    <div className="bg-primary-foreground rounded-xl">
+      <Avatar>
+        <AvatarFallback className="bg-neutral-950 text-white font-bold">
+          {initial}
+        </AvatarFallback>
+      </Avatar>
     </div>
   )
 }

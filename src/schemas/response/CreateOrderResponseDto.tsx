@@ -1,3 +1,4 @@
+import { BuyerDto } from "@/app/clients/schema/dto/ClientDto";
 
 export interface OrderProduct {
   name: string;
@@ -8,16 +9,12 @@ export interface OrderProduct {
 export interface OrderDetail {
   id: number;
   products: OrderProduct[];
-  subtotal: string;
-  is_billable: boolean;
-  delivery_address: string;
-  driver_name: string;
-  vehicle_plate: string;
-  delivery_date: string | null;
-  payment: string;
-  iva: string;
-  created_at: string;
-  updated_at: string;
+  subtotal: number;
+  isBillable: boolean;
+  driverName:string;
+  vehiclePlate: string;
+  iva: number;
+  updatedAt: string;
 }
 
 export interface User {
@@ -35,16 +32,21 @@ export interface OrderType {
   id: string;
   name: string;
 }
+export interface Payment {
+  id: string;
+  amount?:number;
+}
 
 export interface OrderDto {
   id: number;
-  clientName: string;
-  clientRFC: string;
-  createdAt: string;
+  buyer:Partial<BuyerDto>;
+  orderType: Partial<OrderType>;
+  status: Partial<Status>;
   user: User;
-  status: Status;
-  orderType: OrderType;
-  detail: OrderDetail;
+  createdAt: Date;
+  detail: Partial<OrderDetail>;
+  payment?:Partial<Payment>;
+  total:number,
 }
 
 export interface ResponseCreateOrderDto{

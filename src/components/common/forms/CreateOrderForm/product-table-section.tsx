@@ -1,6 +1,6 @@
 "use client"
 
-import { useWatch, type Control } from "react-hook-form"
+import { useFormContext, useWatch, type Control } from "react-hook-form"
 import { ListChecksIcon as ListCheck, Plus, Trash2 } from "lucide-react"
 import type { OrderData } from "@/schemas/Order.Schema"
 import type { ProductType } from "@/schemas/Product.Schema"
@@ -9,6 +9,8 @@ import { FormField, FormItem, FormControl, FormMessage, FormLabel } from "@/comp
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { get } from "http"
+import { useEffect } from "react"
+import { formatCurrency } from "@/utils/utils"
 
 interface ProductsSectionProps {
   control: Control<OrderData>
@@ -27,10 +29,26 @@ export function ProductsSection({
 }: ProductsSectionProps) {
 
   const data = useWatch({control})
+  const { setValue } = useFormContext<OrderData>()
   const getTotalAmount = () => {
     const amount:number = products.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
     return amount
   }
+
+  /**
+   * Escucha los cambios en el total de productos
+   * para realizar el calculo del iva y establecerlo en el monto
+   */
+  useEffect(() => {
+    const subtotal = getTotalAmount()
+    if (data.detail?.isBillable) {
+      const ivaAmount = subtotal * 0.16
+      setValue('detail.iva', ivaAmount)
+    } else {
+      setValue('detail.iva', 0)
+    }
+  }, [data.detail?.isBillable, products, setValue])
+  
 
 
 
@@ -141,21 +159,32 @@ export function ProductsSection({
         />
 
         {
-          data.detail?.isBillable && data.detail.iva &&(
+          data.detail?.isBillable ? (
             <>
               <div className="flex justify-end">
-                <div className="text-lg font-medium">Subtotal: ${getTotalAmount().toFixed(2)}</div>
+                <div className="text-lg font-medium">
+                  Subtotal: {formatCurrency(getTotalAmount())}
+                </div>
               </div>
               <div className="flex justify-end">
-                <div className="text-lg font-medium">IVA: ${(getTotalAmount()*data.detail?.iva/100).toFixed(2)}</div>
+                <div className="text-lg font-medium">
+                  IVA (16%): {formatCurrency(data.detail.iva || 0)}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <div className="text-lg font-semibold">
+                  Total: {formatCurrency(getTotalAmount() + (data.detail.iva || 0))}
+                </div>
               </div>
             </>
+          ) : (
+            <div className="flex justify-end">
+              <div className="text-lg font-semibold">
+                Total: {formatCurrency(getTotalAmount())}
+              </div>
+            </div>
           )
         }
-
-        <div className="flex justify-end">
-          <div className="text-lg font-semibold">Total: ${data.detail?.isBillable && data.detail.iva?(getTotalAmount()+(getTotalAmount()*data.detail?.iva/100)).toFixed(2):getTotalAmount().toFixed(2)}</div>
-        </div>
       </div>
     </div>
   )

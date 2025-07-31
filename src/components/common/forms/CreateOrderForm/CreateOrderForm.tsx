@@ -18,11 +18,13 @@ import { ResponseCreateOrderDto } from '@/schemas/response/CreateOrderResponseDt
 import { downloadOrderPDF } from '@/app/order/actions/createPdf'
 import { toast } from 'sonner'
 import { useUserContext } from '@/context/UserContext'
+import { BuyerDto } from '@/app/clients/schema/dto/ClientDto'
 
 interface CreateOrderFormProps{
   data:Promise<{
     status: Array<OrderStatusDto>;
     types: Array<OrderTypeDto>;
+    clients: Array<BuyerDto>;
 }>
 }
 
@@ -32,22 +34,24 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
   const dataFetch = use(data)
   const [products, setProducts] = useState<Array<ProductType>>([]);
   const {user} = useUserContext()
-  
   const form = useForm<OrderData>({
     resolver:zodResolver(OrderSchema),
     defaultValues: {
-      userId: user?.id,
+      userId: user?.userId,
       statusId: "",
       orderTypeId: "",
-      clientName: "",
-      clientRFC: '',
+      buyerName: "",
+      buyerLastname:"",
+      clientId:undefined,
       detail: {
         subtotal: 0,
+        payment:undefined,
         isBillable: false,
         products: [],
         driverName: '',
         deliveryAddress: '',
-        vehiclePlate:''
+        vehiclePlate:'',
+        iva:0
       },
     },
   });
@@ -84,11 +88,10 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
         const totalNumber = Number(getSubTotalAmount())
         values.detail.subtotal = totalNumber
         const res: ResponseCreateOrderDto = await handleCreateOrder(values);
-        const order = res.order;
-        await downloadOrderPDF(order, false);
-        await downloadOrderPDF(order, true);
-
         toast.success(res.message);
+        downloadOrderPDF(res.order, false)
+        downloadOrderPDF(res.order, true)
+        
       } catch (error: any) {
         try {
           const errorData = JSON.parse(error.message.split(' - ')[1]);
@@ -106,26 +109,16 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
       }
     }
 
-    // DEBUGGING: Observar cambios en el estado del formulario
-    useEffect(() => {
-      const subscription = form.watch((value, { name, type }) => {
-        console.log(`🔄 Campo cambiado: ${name}, Tipo: ${type}`, value)
-      })
-      return () => subscription.unsubscribe()
-    }, [form])
-    
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-5 flex flex-col sm:flex-row w-full gap-5">
         {/* Datos básicos */}
         <div className="w-full sm:w-1/2 flex flex-col gap-5">
-          <ClientDataSection control={form.control} />
-
           <OrderDataSection  control={form.control} statusData={dataFetch.status} typesData={dataFetch.types}/>
-
+          <ClientDataSection control={form.control} clientsData={dataFetch.clients}/>
           <DeliveryDataSection control={form.control} />
         </div>
-
+        
         {/* Listado de productos */}
         <div className="w-full sm:w-1/2">
           <ProductsSection

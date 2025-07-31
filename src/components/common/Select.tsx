@@ -10,7 +10,7 @@ interface SelectProps<T extends FieldValues> {
   placeholder: string,
   control: Control<T>,
   isRequired?: boolean,
-  data:Array<any>,
+  data:Array<any>
 }
 
 const SelectForm = <T extends FieldValues>({name, label, placeholder, control, isRequired,data}: SelectProps<T>) => {
@@ -33,8 +33,8 @@ const SelectForm = <T extends FieldValues>({name, label, placeholder, control, i
                 </FormControl>
                 <SelectContent>
                     {
-                        data.map((item:{name:string,id:string})=>(
-                            <SelectItem className='cursor-pointer' key={item.id} value={item.id}>{item.name}</SelectItem>
+                        data.map((item:{name:string,id:string,lastname:string})=>(
+                            <SelectItem className='cursor-pointer' key={item.id} value={item.id}>{item.name} {item.lastname} </SelectItem>
                         ))
                     }
                 </SelectContent>

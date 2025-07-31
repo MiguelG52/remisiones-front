@@ -1,5 +1,4 @@
 import { FlatCompat } from '@eslint/eslintrc'
-import { off } from 'process'
  
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,

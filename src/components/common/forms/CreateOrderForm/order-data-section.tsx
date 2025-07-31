@@ -77,18 +77,6 @@ export function OrderDataSection({ control, statusData, typesData }: OrderDataSe
         <Separator />
         <div className={`${isBillable ? "flex flex-col sm:flex-row items-start sm:items-center gap-5" : ""} mt-2`}>
           <CheckBoxForm Icon={CreditCard} name="detail.isBillable" label="¿La nota es facturable?" control={control} />
-          {isBillable && (
-            <div className="w-full sm:w-1/3">
-              <InputText
-                type={"number"}
-                Icon={Percent}
-                control={control}
-                name="detail.iva"
-                label=""
-                placeholder="Porcentaje de impuesto"
-              />
-            </div>
-          )}
         </div>
       </div>
     </div>

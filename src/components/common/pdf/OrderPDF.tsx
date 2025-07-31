@@ -8,7 +8,6 @@ import {
   Image,
 } from '@react-pdf/renderer';
 import { OrderDto } from '@/schemas/response/CreateOrderResponseDto';
-
 // Estilos
 const styles = StyleSheet.create({
   page: {
@@ -76,23 +75,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type orderPdf = OrderDto & {isCopy:boolean}
-const OrderPDF = ({id, clientName, clientRFC, createdAt, user, status, orderType, detail, isCopy}:orderPdf) => {
+type OrderPDFProps = OrderDto & { isCopy: boolean }
 
+export const OrderPDF = ({id,createdAt,user,orderType,detail,buyer,total,payment,isCopy,
+}: OrderPDFProps) => {
+  const formatCurrency = (value: number) =>
+    `$${value.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`
 
-
-  const getIVATotal = ()=>{
-    return parseFloat(detail.iva)*(parseFloat(detail.subtotal)/100)
+  const getTotal = (): number => {
+    const subtotal = detail.subtotal ?? 0
+    const iva = detail.iva ?? 0
+    return detail.isBillable ? Number(subtotal)+Number(iva) : subtotal
   }
-
-  const getTotalWithoutIva = ()=>{
-    return parseFloat(detail.subtotal)
-  }
-  const getTotal = ()=>{
-    const ivaCost = getIVATotal()
-    return parseFloat(detail.subtotal) + ivaCost
-  }
-  
 
   return (
     <Document>
@@ -104,28 +98,27 @@ const OrderPDF = ({id, clientName, clientRFC, createdAt, user, status, orderType
             <Text style={styles.heading}>Nota de Remisión</Text>
             <Text>Folio: {id}</Text>
             <Text>Fecha: {new Date(createdAt).toLocaleDateString()}</Text>
-            <Text style={styles.mark}>{`${isCopy?"Copia":"Original"}`}</Text>
+            <Text style={styles.mark}>{isCopy ? 'Copia' : 'Original'}</Text>
           </View>
         </View>
 
         {/* Datos del cliente */}
         <Text style={styles.sectionTitle}>Datos del Cliente</Text>
-        <Text>Nombre: {clientName}</Text>
-        <Text>RFC: {clientRFC}</Text>
+        <Text>Nombre: {`${buyer.name} ${buyer.lastname ?? ''}`}</Text>
+        <Text>Dirección: {buyer.address}</Text>
+        {buyer.phone && <Text>Teléfono: {buyer.phone}</Text>}
 
+        {/* Datos de la Orden */}
         <Text style={styles.sectionTitle}>Datos de la Orden</Text>
         <Text>Vendedor: {user.name} ({user.email})</Text>
-        <Text>Tipo de orden: {orderType.name}</Text>
-        <Text>Estatus: {status.name}</Text>
-        {
-          (Number(detail.payment) > 0 && (Number(detail.payment))) ? <Text>Pago anticipado: {detail.payment}</Text>: null
-        }    
-        
+        {payment?.amount && payment.amount > 0 && (
+          <Text>Pago anticipado: {formatCurrency(payment.amount)}</Text>
+        )}
+
         {/* Entrega */}
         <Text style={styles.sectionTitle}>Datos de Entrega</Text>
-        <Text>Dirección: {detail.delivery_address}</Text>
-        <Text>Repartidor: {detail.driver_name}</Text>
-        <Text>Placas del vehículo: {detail.vehicle_plate}</Text>
+        {detail.driverName && <Text>Repartidor: {detail.driverName}</Text>}
+        {detail.vehiclePlate && <Text>Placas del vehículo: {detail.vehiclePlate}</Text>}
 
         {/* Productos */}
         <Text style={styles.sectionTitle}>Productos</Text>
@@ -135,32 +128,27 @@ const OrderPDF = ({id, clientName, clientRFC, createdAt, user, status, orderType
             <Text style={styles.tableColHeader}>Cantidad</Text>
             <Text style={styles.tableColHeader}>Precio</Text>
           </View>
-          {detail.products.map((prod, idx) => (
+          {detail.products && detail.products.map((prod, idx) => (
             <View style={styles.tableRow} key={idx}>
               <Text style={styles.tableCol}>{prod.name}</Text>
               <Text style={styles.tableCol}>{prod.quantity}</Text>
-              <Text style={styles.tableCol}>${prod.price}</Text>
+              <Text style={styles.tableCol}>{formatCurrency(prod.price)}</Text>
             </View>
           ))}
         </View>
 
         {/* Totales */}
         <View style={styles.footer}>
-
-          {
-            detail.is_billable ? (
-              <>
-                <Text>Subtotal: ${detail.subtotal}</Text>
-                <Text>IVA: ${getIVATotal()}</Text>
-              </>
-            ):null
-          }
-          
-          <Text>Total: ${detail.is_billable ? getTotal():getTotalWithoutIva()}</Text>
+          {detail.isBillable && (
+            <>
+              {detail.subtotal && <Text>Subtotal: {formatCurrency(detail.subtotal)}</Text>}
+              {detail.iva && <Text>IVA:{detail.iva}</Text>}
+              
+            </>
+          )}
+          <Text>Total: {formatCurrency(getTotal())}</Text>
         </View>
       </Page>
     </Document>
-  );
-};
-
-export default OrderPDF;
+  )
+}

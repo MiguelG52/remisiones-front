@@ -1,6 +1,6 @@
 import { OrderDto } from '@/schemas/response/CreateOrderResponseDto';
 import { pdf } from '@react-pdf/renderer';
-import OrderPDF from '@/components/common/pdf/OrderPDF';
+import {OrderPDF} from '@/components/common/pdf/OrderPDF';
 
 export async function downloadOrderPDF(orderData:OrderDto, isCopy:boolean) {
 

@@ -4,15 +4,17 @@ import { OrderTypeDto } from '@/schemas/dto/OrderTypeDto';
 import { OrderData } from '@/schemas/Order.Schema';
 import { cache } from 'react'
 import { getAuthToken } from '@/app/auth/actions/auth.actions';
+import { BuyerDto } from '@/app/clients/schema/dto/ClientDto';
 
 
 export const fetchData = cache(async ():Promise<{
     status:Array<OrderStatusDto>,
     types:Array<OrderTypeDto>
+    clients:Array<BuyerDto>
 }> => {
   const accessToken = await getAuthToken()
   
-  const [statusRes, typesRes] = await Promise.all([
+  const [statusRes, typesRes, clientsRes] = await Promise.all([
     fetch(process.env.NEXT_PUBLIC_URL_SERVER+'/order-status/find-all', {
       method: 'GET',
       headers: {
@@ -27,15 +29,24 @@ export const fetchData = cache(async ():Promise<{
         'Authorization': `Bearer ${accessToken}`
       },
       credentials: 'include'
+    }),
+    fetch(process.env.NEXT_PUBLIC_URL_SERVER+'/buyers/find-all-clients', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+      credentials: 'include'
     })
   ]);
 
-  const [status, types] = await Promise.all([
+  const [status, types, clients] = await Promise.all([
     statusRes.json(),
-    typesRes.json()
+    typesRes.json(),
+    clientsRes.json()
   ]);
 
-  return { status, types };
+  return { status, types, clients };
 });
 
  export const handleCreateOrder = async(orderData: OrderData): Promise<ResponseCreateOrderDto> => {

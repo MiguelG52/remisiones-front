@@ -2,6 +2,6 @@ export interface UserDataDto {
     name:string;
     lastName:string;
     email:string
-    userId:string;
+    id:string;
     rolId:string;
 }

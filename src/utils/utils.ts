@@ -23,3 +23,12 @@ export const zodNumber = (configure?: (num: z.ZodNumber) => z.ZodNumber) =>
 export function isApiError(obj: any): obj is ApiError {
       return obj && typeof obj.message === 'string' && !obj.token;
   }
+
+export const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('es-MX', {
+    style: 'currency',
+    currency: 'MXN',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount)
+}

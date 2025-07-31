@@ -11,12 +11,13 @@ interface InputTextProps<T extends FieldValues> {
   control: Control<T>,
   isRequired?: boolean
   Icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>
-  type?:string
+  type?:string,
+  disabled?:boolean
 }
 
   
 const InputText = <T extends FieldValues>({
-  control, name, label, placeholder, isRequired, Icon, type = "text"
+  control, name, label, placeholder, isRequired, Icon, type = "text", disabled
 }: InputTextProps<T>) => {
 
   return (
@@ -42,6 +43,8 @@ const InputText = <T extends FieldValues>({
                 placeholder={placeholder}
                 {...field}
                 
+                disabled={disabled}
+
                 autoComplete={
                   type === "password"
                   ? "off"

@@ -19,7 +19,6 @@ const ResetPasswordForm = () => {
 
     const [loading, setIsLoading]= useState<boolean>(false)
 
-    const onvalid = (errors:any)=> console.log(errors)
     const resetPasswordForm = useForm<ResetPasswordFormData>({
       resolver:zodResolver(ResetPasswordSchema),
       defaultValues:{
@@ -55,7 +54,7 @@ const ResetPasswordForm = () => {
 
   return (
     <Form {...resetPasswordForm}>
-            <form onSubmit={resetPasswordForm.handleSubmit(onSubmit, onvalid)} className='flex flex-col gap-5 mt-5 sm:w-1/2 xl:w-1/4'>
+            <form onSubmit={resetPasswordForm.handleSubmit(onSubmit)} className='flex flex-col gap-5 mt-5 sm:w-1/2 xl:w-1/4'>
               <InputText 
                 control={resetPasswordForm.control} 
                 name='newPassword'

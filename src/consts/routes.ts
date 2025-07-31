@@ -1,4 +1,4 @@
-import { ChartSplineIcon, FileMinus, Home, List, LucideProps, Settings, Users } from "lucide-react";
+import { ChartSplineIcon, FileMinus, Home, List, LucideProps, Settings, ShieldUser, UserCog, Users } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface routePath{
@@ -10,7 +10,7 @@ interface routePath{
 export const routes:Array<routePath> = [
   {
     title: "Inicio  ",
-    url: "/dashboard",
+    url: "/",
     icon: Home,
   },
   {
@@ -34,8 +34,8 @@ export const routes:Array<routePath> = [
     icon: ChartSplineIcon,
   },
   {
-    title: "Configuración",
-    url: "/settings",
-    icon: Settings,
+    title: "Administrador",
+    url: "/administrator",
+    icon: ShieldUser,
   },
 ]

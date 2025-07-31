@@ -24,8 +24,8 @@ const RegisterClientForm = ({onCloseDialog}:props) => {
         name:"",
         lastname:"",
         address:"",
-        phone:undefined,
-        email:undefined,
+        phone:"",
+        email:"",
       }
     })
   
@@ -38,9 +38,9 @@ const RegisterClientForm = ({onCloseDialog}:props) => {
               return;
             }
             if (result.success) {
-              toast.success(result.data.message);
-              onCloseDialog()
-              verifySessionPath('/clients')
+              toast.success(result.message || 'Cliente registrado correctamente');
+              await onCloseDialog()
+              verifySessionPath('/clients?page=1')
             }
 
         } catch (error) {

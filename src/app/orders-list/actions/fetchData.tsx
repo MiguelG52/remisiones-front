@@ -2,8 +2,8 @@ import { FindOrderResponse } from "@/schemas/response/FindOrderResponse";
 import { cache } from "react";
 import { getAuthToken } from "@/app/auth/actions/auth.actions";
 import { changeOrderStatusData } from "@/schemas/ChangeOrderStatus.schema";
-import { ErrorResponse, SuccesfullResponse } from "@/schemas/response/ServerResponses";
-import { ApiError } from "@/schemas/error/error";
+import { ServerGenericResponse } from "@/schemas/response/ServerResponses";
+import { ApiError } from "next/dist/server/api-utils";
 
 export const fetchOrdersData = cache(async (page: number = 1, limit: number = 10, search?: string): Promise<FindOrderResponse> => {
   
@@ -52,7 +52,7 @@ export async function getOrdersPaginated(page: number = 1,  search: string = '')
 }
 
 
-export async function handleChangeOrderStatus(id:string, dataStatus:changeOrderStatusData): Promise<SuccesfullResponse | ErrorResponse>{
+export async function handleChangeOrderStatus(id:string, dataStatus:changeOrderStatusData): Promise<ServerGenericResponse<FindOrderResponse>>{
   const accessToken = await getAuthToken()
   const response = await fetch(process.env.NEXT_PUBLIC_URL_SERVER+`/orders/change-status/${id}`, {
     method:'PATCH',

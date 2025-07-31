@@ -6,7 +6,6 @@ import { OrderDto } from "@/schemas/response/CreateOrderResponseDto";
 import { downloadOrderPDF } from "@/app/order/actions/createPdf";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
-import ChangeStatus from "./changeStatus";
 
 export const ActionsColumn = ({ data }: { data: OrderDto }) => {
   const { user } = useUserContext();

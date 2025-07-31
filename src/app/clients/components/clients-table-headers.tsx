@@ -1,40 +1,8 @@
 'use client'
-import { Badge } from "@/components/ui/badge";
 import { ColumnDef} from "@tanstack/react-table";
-import { File, Edit, Sheet } from "lucide-react";
 import { BuyerDto } from "../schema/dto/ClientDto";
-import CustomTooltip from "@/components/common/CustomTooltip";
+import ActionsColumn from "./actions-colum";
 
-const ActionsColumn = () => {
-    return( 
-        <div className="flex  gap-2">
-            <CustomTooltip 
-                content="Descargar Estado de cuenta PDF" 
-                trigger={
-                    <Badge variant={"destructive"} className="rounded-full w-8 h-8 cursor-pointer">
-                        <File className="h-5 w-5"></File>
-                    </Badge>
-                }
-            />
-            <CustomTooltip 
-                content="Descargar Estado de cuenta CSV"
-                trigger={
-                    <Badge  className="rounded-full w-8 h-8 cursor-pointer bg-green-700">
-                        <Sheet className="h-5 w-5"></Sheet>
-                    </Badge>   
-                }
-            />
-            <CustomTooltip 
-                content="Editar"
-                trigger={
-                    <Badge variant="outline" className="rounded-full w-8 h-8 cursor-pointer">
-                        <Edit></Edit>
-                    </Badge> 
-                }
-            />
-        </div> 
-    )   
-}
 
 
 export const clientsTableColums:ColumnDef<BuyerDto>[] = [
@@ -68,7 +36,7 @@ export const clientsTableColums:ColumnDef<BuyerDto>[] = [
         header:"Acciones",
         cell:({row})=>{
             return( 
-                <ActionsColumn/>
+                <ActionsColumn data={row.original}/>
             )
         }
     }

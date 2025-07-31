@@ -38,7 +38,7 @@ const RegisterClientForm = ({onCloseDialog}:props) => {
               return;
             }
             if (result.success) {
-              toast.success(result.message);
+              toast.success(result.data.message);
               onCloseDialog()
               verifySessionPath('/clients')
             }

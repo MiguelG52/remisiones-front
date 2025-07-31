@@ -25,7 +25,7 @@ export const handleRegisterClient = async(formData:RegisterClientData):Promise<S
                     success:false, error: data as ApiError
                  }
             }
-            return { success:true, message: data.message}
+            return { success:true, message:data.message}
         } catch (error) {
             console.error('Login error:', error)
             throw error

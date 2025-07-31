@@ -34,7 +34,6 @@ const CreateOrderForm = ({data}:CreateOrderFormProps) => {
   const dataFetch = use(data)
   const [products, setProducts] = useState<Array<ProductType>>([]);
   const {user} = useUserContext()
-  console.log(user?.userId)
   const form = useForm<OrderData>({
     resolver:zodResolver(OrderSchema),
     defaultValues: {

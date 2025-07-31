@@ -33,7 +33,6 @@ const RegisterClientForm = ({onCloseDialog}:props) => {
         setIsLoading(true)
         try {
             const result = await handleRegisterClient(data);
-            console.log(result)
             if (!result.success) {
               toast.error(result.error.message || 'Error desconocido al iniciar sesión');
               return;

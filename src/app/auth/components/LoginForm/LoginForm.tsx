@@ -27,7 +27,6 @@ const LoginForm = () => {
         setIsLoading(true)
         try {
             const result = await handleLogin(data.email, data.password);
-            console.log(result)
             if (!result.success) {
               toast.error(result.error.message || 'Error desconocido al iniciar sesión');
               return;

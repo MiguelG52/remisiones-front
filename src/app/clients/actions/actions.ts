@@ -48,7 +48,6 @@ export const fetchClients = cache(async (page: number = 1, limit: number = 10, s
     next: { tags: ['clients'] } // Para revalidación
   });
   const res = await response.json()
-  console.log(res)
 
   if (!response.ok) {
     throw new Error('Error al obtener los clientes');
